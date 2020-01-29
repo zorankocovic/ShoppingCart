@@ -69,13 +69,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 AddProduct()
             }
             R.id.nav_gallery -> {
-ListProduct()
+                 ListProduct()
             }
             R.id.nav_slideshow -> {
-
+                AddProductToBase()
             }
             R.id.nav_tools -> {
-
+                ListProductFromBase()
             }
             R.id.nav_share -> {
 
