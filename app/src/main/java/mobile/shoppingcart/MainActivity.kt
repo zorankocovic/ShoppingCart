@@ -1,5 +1,6 @@
 package mobile.shoppingcart
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -21,11 +22,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -66,23 +63,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
-                AddProduct()
+                val i = Intent(this, AddProduct::class.java)
+                startActivity(i)
             }
             R.id.nav_gallery -> {
-                 ListProduct()
+                val i = Intent(this, ListProduct::class.java)
+                startActivity(i)
+
             }
             R.id.nav_slideshow -> {
-                AddProductToBase()
+                val i = Intent(this, AddProductToBase::class.java)
+                startActivity(i)
             }
             R.id.nav_tools -> {
-                ListProductFromBase()
+                val i = Intent(this, ListProductFromBase::class.java)
+                startActivity(i)
             }
-            R.id.nav_share -> {
 
-            }
-            R.id.nav_send -> {
-
-            }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)

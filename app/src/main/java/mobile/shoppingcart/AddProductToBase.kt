@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import mobile.shoppingcart.db.DatabaseHandler
-import mobile.shoppingcart.model.StoreProduct
+import mobile.shoppingcart.model.ProductBase
 import kotlinx.android.synthetic.main.activity_add_edit_base.*
 
 class AddProductToBase : AppCompatActivity() {
@@ -17,6 +18,7 @@ var isEditMode = false
 public override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_add_edit_base)
+    Toast.makeText(applicationContext,"sdfdsf", Toast.LENGTH_SHORT).show()
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
     initDB()
     initOperations()
@@ -27,8 +29,8 @@ private fun initDB() {
     btn_delete.visibility = View.INVISIBLE
     if (intent != null && intent.getStringExtra("Mode") == "E") {
         isEditMode = true
-        val storeproduct: StoreProduct = dbHandler!!.getProduct(intent.getIntExtra("Id",0))
-       iname.setText(storeproduct.product)
+        val baseproduct: ProductBase = dbHandler!!.getProductBase(intent.getIntExtra("id",0))
+        name.setText(baseproduct.name)
 
 
         btn_delete.visibility = View.VISIBLE
@@ -39,20 +41,15 @@ private fun initOperations() {
     btn_save.setOnClickListener({
         var success: Boolean = false
         if (!isEditMode) {
-            val storeproduct: StoreProduct = StoreProduct()
-            storeproduct.store = istorename.text.toString()
-            storeproduct.product = iname.text.toString()
-            storeproduct.price = idesc.text.toString()
+            val baseproduct: ProductBase = ProductBase()
+            baseproduct.name = name.text.toString()
 
-            success = dbHandler?.addProduct(storeproduct) as Boolean
+            success = dbHandler?.addProducttobase(baseproduct) as Boolean
         } else {
-            val tasks: StoreProduct = StoreProduct()
-            tasks.id = intent.getIntExtra("Id", 0)
-            tasks.store = istorename.text.toString()
-            tasks.product = iname.text.toString()
-            tasks.price = idesc.text.toString()
-
-            success = dbHandler?.updateProduct(tasks) as Boolean
+            val baseproduct: ProductBase = ProductBase()
+            baseproduct.id = intent.getIntExtra("id", 0)
+            baseproduct.name = name.text.toString()
+            success = dbHandler?.updateProductBase(baseproduct) as Boolean
         }
 
         if (success)

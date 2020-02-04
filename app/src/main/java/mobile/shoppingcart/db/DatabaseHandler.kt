@@ -12,7 +12,7 @@ import java.util.*
 class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DatabaseHandler.DB_NAME, null, DatabaseHandler.DB_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        val CREATE_TABLE = "CREATE TABLE $TABLE_SP ($ID INTEGER PRIMARY KEY, $STORENAME TEXT, $NAME TEXT, $DESCR TEXT, $COMPLETED TEXT);"
+        val CREATE_TABLE = "CREATE TABLE StoreProduct (Id INTEGER PRIMARY KEY, StoreName TEXT, Name TEXT, $DESCR TEXT, $COMPLETED TEXT);"
         db.execSQL(CREATE_TABLE)
         val PRODUCTBASETABLE = "CREATE TABLE Product (id INTEGER PRIMARY KEY,  name TEXT);"
         db.execSQL(PRODUCTBASETABLE)
@@ -128,7 +128,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DatabaseHand
     fun getProductBase(_id: Int): ProductBase {
         val product = ProductBase()
         val db = writableDatabase
-        val selectQuery = "SELECT  * FROM Product WHERE id = _id"
+        val selectQuery = "SELECT  * FROM Product WHERE id =_id"
         val cursor = db.rawQuery(selectQuery, null)
 
         cursor?.moveToFirst()
@@ -149,7 +149,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DatabaseHand
     fun allproduct(): List<ProductBase> {
         val sp = ArrayList<ProductBase>()
         val db = writableDatabase
-        val selectQuery = "SELECT  * FROM $TABLE_SP"
+        val selectQuery = "SELECT  * FROM Product"
         val cursor = db.rawQuery(selectQuery, null)
         if (cursor != null) {
             if (cursor.moveToFirst()) {

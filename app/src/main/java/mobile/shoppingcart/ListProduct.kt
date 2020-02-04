@@ -25,6 +25,7 @@ class ListProduct : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_product)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initViews()
         initOperations()
         //initDB()
@@ -38,8 +39,8 @@ class ListProduct : AppCompatActivity() {
     }
 
     fun initViews() {
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
+      //  val toolbar = findViewById(R.id.toolbar) as Toolbar
+       // setSupportActionBar(toolbar)
         fab = findViewById(R.id.fab) as FloatingActionButton
         recyclerView = findViewById(R.id.recycler_view) as RecyclerView
         adapter = ListProductAdapter(productList = listStoreProduct, context = applicationContext)
@@ -73,6 +74,11 @@ class ListProduct : AppCompatActivity() {
                     dialog.dismiss()
                 })
             dialog.show()
+            return true
+        }
+
+        if (id == android.R.id.home) {
+            finish()
             return true
         }
         return super.onOptionsItemSelected(item)
