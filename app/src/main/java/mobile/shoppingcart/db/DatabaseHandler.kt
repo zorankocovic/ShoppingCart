@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import mobile.shoppingcart.model.StoreProduct
 import mobile.shoppingcart.model.ProductBase
+import mobile.shoppingcart.model.Store
+import java.sql.Array
 import java.util.*
 
 class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DatabaseHandler.DB_NAME, null, DatabaseHandler.DB_VERSION) {
@@ -16,7 +18,8 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DatabaseHand
         db.execSQL(CREATE_TABLE)
         val PRODUCTBASETABLE = "CREATE TABLE Product (id INTEGER PRIMARY KEY,  name TEXT);"
         db.execSQL(PRODUCTBASETABLE)
-
+        val STOREBASETABLE = "CREATE TABLE Store (id INTEGER PRIMARY KEY,  name TEXT);"
+        db.execSQL(STOREBASETABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -24,6 +27,9 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DatabaseHand
         db.execSQL(DROP_TABLE)
         onCreate(db)
         val DROP_PRODUCT = "DROP TABLE IF EXISTS Product"
+        db.execSQL(DROP_PRODUCT)
+        onCreate(db)
+        val STORE_PRODUCT = "DROP TABLE IF EXISTS Store"
         db.execSQL(DROP_PRODUCT)
         onCreate(db)
     }
@@ -164,5 +170,77 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DatabaseHand
         }
         cursor.close()
         return sp
+    }
+
+
+    fun addStore(basestore: Store): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put("name", basestore.name)
+        val _success = db.insert("Store", null, values)
+        db.close()
+        return (Integer.parseInt("$_success") != -1)
+    }
+    fun allStore(): List<Store> {
+        val sp = ArrayList<Store>()
+        val db = writableDatabase
+        val selectQuery = "SELECT  * FROM Store"
+        val cursor = db.rawQuery(selectQuery, null)
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    val product = Store()
+                    product.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")))
+                    product.name = cursor.getString(cursor.getColumnIndex("name"))
+
+                    sp.add(product)
+                } while (cursor.moveToNext())
+            }
+        }
+        cursor.close()
+        return sp
+    }
+
+    fun getStore(_id: Int): Store {
+        val product = Store()
+        val db = writableDatabase
+        val selectQuery = "SELECT  * FROM Store WHERE id =_id"
+        val cursor = db.rawQuery(selectQuery, null)
+
+        cursor?.moveToFirst()
+        product.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")))
+        product.name = cursor.getString(cursor.getColumnIndex("name"))
+
+        cursor.close()
+        return product
+    }
+
+    fun allStorespinner(): ArrayList<Store> {
+        val sp = ArrayList<Store>()
+        val db = writableDatabase
+        val selectQuery = "SELECT  * FROM Store"
+        val cursor = db.rawQuery(selectQuery, null)
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    val product = Store()
+                    product.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")))
+                    product.name = cursor.getString(cursor.getColumnIndex("name"))
+
+                    sp.add(product)
+                } while (cursor.moveToNext())
+            }
+        }
+        cursor.close()
+        return sp
+    }
+
+    fun updateStore(product: Store): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put("name", product.name)
+        val _success = db.update("Store", values, "id" + "=?", arrayOf(product.id.toString())).toLong()
+        db.close()
+        return Integer.parseInt("$_success") != -1
     }
 }
