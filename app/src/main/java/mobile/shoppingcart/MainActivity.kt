@@ -79,7 +79,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val i = Intent(this, ListProductFromBase::class.java)
                 startActivity(i)
             }
-
+            R.id.nav_addstore -> {
+                val i = Intent(this, AddStore::class.java)
+                startActivity(i)
+            }
+            R.id.nav_store -> {
+                val i = Intent(this, ListStore::class.java)
+                startActivity(i)
+            }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
