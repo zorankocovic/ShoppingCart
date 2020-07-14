@@ -17,7 +17,7 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Shopping cart name"
+                android:hint="Store name"
                 android:fontFamily="sans-serif-smallcaps"
                 android:inputType="text"
                 tools:ignore="TextFields"
