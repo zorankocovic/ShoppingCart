@@ -18,8 +18,16 @@
                 android:title="@string/menu_addproducttobase"/>
         <item
                 android:id="@+id/nav_tools"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_menu_send"
                 android:title="@string/menu_tools"/>
+        <item
+                android:id="@+id/nav_addstore"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Add store"/>
+        <item
+                android:id="@+id/nav_store"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="List store"/>
     </group>
 
 </menu>
