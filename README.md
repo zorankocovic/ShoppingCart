@@ -1,4 +1,4 @@
-# Kotlin exampe of Shopping Cart
+# Shopping Cart Kotlin example 
 
   - SQLite
   - MVVM architecture 
