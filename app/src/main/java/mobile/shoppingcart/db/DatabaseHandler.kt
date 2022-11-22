@@ -8,6 +8,7 @@ import android.util.Log
 import mobile.shoppingcart.model.StoreProduct
 import mobile.shoppingcart.model.ProductBase
 import mobile.shoppingcart.model.Store
+import mobile.shoppingcart.model.StoreMVVM
 import java.sql.Array
 import java.util.*
 
@@ -20,6 +21,9 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DatabaseHand
         db.execSQL(PRODUCTBASETABLE)
         val STOREBASETABLE = "CREATE TABLE Store (id INTEGER PRIMARY KEY,  name TEXT);"
         db.execSQL(STOREBASETABLE)
+        val SHOPPINGCARTPRODUCT = "CREATE TABLE Shoppingcartproduct (id INTEGER PRIMARY KEY,  id_shoppingcart INTEGER , id_product INTEGER);"
+        db.execSQL(SHOPPINGCARTPRODUCT)
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -30,8 +34,12 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DatabaseHand
         db.execSQL(DROP_PRODUCT)
         onCreate(db)
         val STORE_PRODUCT = "DROP TABLE IF EXISTS Store"
-        db.execSQL(DROP_PRODUCT)
+        db.execSQL(STORE_PRODUCT)
         onCreate(db)
+        val SHOPPINGCART_PRODUCT = "DROP TABLE IF EXISTS Shoppingcartproduct"
+        db.execSQL(SHOPPINGCART_PRODUCT)
+        onCreate(db)
+
     }
 
     fun addProduct(storeproduct: StoreProduct): Boolean {
@@ -201,10 +209,31 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DatabaseHand
         return sp
     }
 
+
+    fun allStoreMVVM(): ArrayList<Store> {
+        val sp = ArrayList<Store>()
+        val db = writableDatabase
+        val selectQuery = "SELECT  * FROM Store"
+        val cursor = db.rawQuery(selectQuery, null)
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    val product = Store()
+                    product.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")))
+                    product.name = cursor.getString(cursor.getColumnIndex("name"))
+
+                    sp.add(product)
+                } while (cursor.moveToNext())
+            }
+        }
+        cursor.close()
+        return sp
+    }
+
     fun getStore(_id: Int): Store {
         val product = Store()
         val db = writableDatabase
-        val selectQuery = "SELECT  * FROM Store WHERE id =_id"
+        val selectQuery = "SELECT  * FROM Store WHERE id =$_id"
         val cursor = db.rawQuery(selectQuery, null)
 
         cursor?.moveToFirst()
@@ -243,4 +272,45 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DatabaseHand
         db.close()
         return Integer.parseInt("$_success") != -1
     }
+
+    fun addStoreMVVM(product: StoreMVVM): Boolean {
+        Log.v("Storename", product.name)
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put("name", product.name)
+        val _success = db.insert("Store", null, values)
+        db.close()
+        return (Integer.parseInt("$_success") != -1)
+    }
+
+
+
+    fun deleteStore(_id: Int): Boolean {
+        Log.v("deletedId", _id.toString())
+        //Toast.makeText(DatabaseHandler,_id.toString(), Toast.LENGTH_SHORT).show()
+        val db = this.writableDatabase
+        val _success = db.delete("Store", "id" + "=?", arrayOf(_id.toString())).toLong()
+        db.close()
+        return Integer.parseInt("$_success") != -1
+    }
+    fun allShoppingCartspinner(): ArrayList<Store> {
+        val sp = ArrayList<Store>()
+        val db = writableDatabase
+        val selectQuery = "SELECT  * FROM Product"
+        val cursor = db.rawQuery(selectQuery, null)
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    val product = Store()
+                    product.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")))
+                    product.name = cursor.getString(cursor.getColumnIndex("name"))
+
+                    sp.add(product)
+                } while (cursor.moveToNext())
+            }
+        }
+        cursor.close()
+        return sp
+    }
+
 }
