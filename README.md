@@ -1,2 +1,5 @@
-ShoppingCart
-Kotlin example of using sqlite
+Kotlin exampe of Shopping Cart
+
+  - SQLite
+  - MVVM archicteture 
+  
