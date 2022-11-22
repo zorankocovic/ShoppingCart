@@ -2,11 +2,9 @@ package mobile.shoppingcart
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu
 import android.view.MenuItem
 import mobile.shoppingcart.adapter.StoreAdapter
@@ -25,6 +23,7 @@ class ListStore : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.store)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "Stores"
         initViews()
         initOperations()
         //initDB()
@@ -49,7 +48,9 @@ class ListStore : AppCompatActivity() {
 
     fun initOperations() {
         fab?.setOnClickListener { view ->
-            val i = Intent(applicationContext, AddStore::class.java)
+        //    val i = Intent(applicationContext, AddStore::class.java)
+            val i = Intent(applicationContext, AddStoreMVVM::class.java)
+
             i.putExtra("Mode", "A")
             startActivity(i)
         }
