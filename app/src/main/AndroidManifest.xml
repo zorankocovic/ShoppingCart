@@ -31,6 +31,17 @@
         <activity
                 android:name=".ListProductFromBase"
                 android:theme="@style/AppTheme" />
+        <activity
+                android:name=".ListStore"
+                android:theme="@style/AppTheme" />
+
+        <activity
+                android:name=".AddStore"
+                android:theme="@style/AppTheme" />
+
+        <activity
+                android:name=".AddStoreMVVM"
+                android:theme="@style/AppTheme" />
 
     </application>
 
